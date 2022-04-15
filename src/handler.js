@@ -80,23 +80,87 @@ const addBookHandler = (request, h) => {
 };
 
 const getAllBooksHandler = (request, h) => {
-  // const { name } = request.query;
-  // const filterbook = books.filter((book) => book.name === name)[0];
+  const { name, reading, finished } = request.query;
 
-  // if (name !== undefined) {
-  //   const response = h.response({
-  //     status: 'success',
-  //     data: {
-  //       books: books.map((book) => ({
-  //         id: book.id,
-  //         name: book.name,
-  //         publisher: book.publisher,
-  //       })),
-  //     },
-  //   });
-  //   response.code(200);
-  //   return response;
-  // }
+  if (name !== undefined) {
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: books.filter((book) => book.name.toLowerCase().includes(name.toLowerCase()))
+          .map((b) => ({
+            id: b.id,
+            name: b.name,
+            publisher: b.publisher,
+          })),
+      },
+    });
+    response.code(200);
+    return response;
+  }
+
+  if (reading === '1') {
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: books.filter((book) => book.reading === true)
+          .map((b) => ({
+            id: b.id,
+            name: b.name,
+            publisher: b.publisher,
+          })),
+      },
+    });
+    response.code(200);
+    return response;
+  }
+
+  if (reading === '0') {
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: books.filter((book) => book.reading === false)
+          .map((b) => ({
+            id: b.id,
+            name: b.name,
+            publisher: b.publisher,
+          })),
+      },
+    });
+    response.code(200);
+    return response;
+  }
+
+  if (finished === '1') {
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: books.filter((book) => book.finished === true)
+          .map((b) => ({
+            id: b.id,
+            name: b.name,
+            publisher: b.publisher,
+          })),
+      },
+    });
+    response.code(200);
+    return response;
+  }
+
+  if (finished === '0') {
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: books.filter((book) => book.finished === false)
+          .map((b) => ({
+            id: b.id,
+            name: b.name,
+            publisher: b.publisher,
+          })),
+      },
+    });
+    response.code(200);
+    return response;
+  }
 
   const response = h.response({
     status: 'success',
